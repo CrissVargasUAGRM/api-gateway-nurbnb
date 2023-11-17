@@ -1,0 +1,142 @@
+http:
+  port: 8061
+admin:
+  port: 9876
+  host: localhost
+apiEndpoints:
+  api:
+    host: localhost
+    paths: '/ip'
+  persons:
+    host: localhost
+    paths: '/persons'
+  getPerson:
+    host: localhost
+    paths: '/person/:id'
+
+  users:
+    host: localhost
+    paths: '/users'
+  user:
+    host: localhost
+    paths: '/user/:id'
+
+  commends-property:
+    host: localhost
+    paths: '/commends-property'
+  commend-property:
+    host: localhost
+    paths: '/commend-property/:id'
+
+  commends-user:
+    host: localhost
+    paths: '/commends-user'
+  commend-user:
+    host: localhost
+    paths: '/commend-user/:id'
+
+
+serviceEndpoints:
+  httpbin:
+    url: 'https://httpbin.org'
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+  - create-person
+  - get-person
+  - get-users
+  - get-user
+  - get-commends-property
+  - get-commends-user
+  - get-commend-property
+  - get-commend-user
+customPolicies:
+  - myCustomPolicy: './create-person-policy.js'
+pipelines:
+  default:
+    apiEndpoints:
+      - api
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: httpbin 
+              changeOrigin: true
+
+  personPipeline:
+    apiEndpoints:
+      - persons
+    policies:
+      - create-person: 
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/persons']
+  getPersonPipeline:
+    apiEndpoints:
+      - getPerson
+    policies:
+      - get-person:
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/person']  
+
+  usersPipeline:
+    apiEndpoints:
+      - users
+    policies:
+      - get-users: 
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/get-all-users']
+  userPipeline:
+    apiEndpoints:
+      - user
+    policies:
+      - get-user: 
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/get-user']
+
+  commendsPropertyPipeline:
+    apiEndpoints:
+      - commends-property
+    policies:
+      - get-commends-property: 
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/commends']
+  commendPropertyPipeline:
+    apiEndpoints:
+      - commend-property
+    policies:
+      - get-commend-property: 
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/commend']
+
+  commendsUserPipeline:
+    apiEndpoints:
+      - commends-user
+    policies:
+      - get-commends-user: 
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/commends-person']
+  commendUserPipeline:
+    apiEndpoints:
+      - commend-user
+    policies:
+      - get-commend-user: 
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/commend-person']
+        
+
+    

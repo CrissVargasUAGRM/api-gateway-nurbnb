@@ -1,0 +1,40 @@
+# Core
+db:
+  redis:
+    emulate: true
+    namespace: EG
+
+plugins:
+   myCustomPolicy:
+     package: './plugins/manifest.js'
+   myCustomPolicy2:
+     package: './plugins/manifest1.js'
+   myCustomPolicy3:
+     package: './plugins/manifest-users.js'
+   myCustomPolicy4:
+     package: './plugins/manifest-user.js'
+   myCustomPolicy5:
+     package: './plugins/manifest-commends-property.js'   
+   myCustomPolicy7:
+     package: './plugins/manifest-commends-user.js'
+   myCustomPolicy8:
+     package: './plugins/manifest-commend-property.js'
+   myCustomPolicy9:
+     package: './plugins/manifest-commend-user.js'
+
+crypto:
+  cipherKey: sensitiveKey
+  algorithm: aes256
+  saltRounds: 10
+
+# OAuth2 Settings
+session:
+  secret: keyboard cat
+  resave: false
+  saveUninitialized: false
+accessTokens:
+  timeToExpiry: 7200000
+refreshTokens:
+  timeToExpiry: 7200000
+authorizationCodes:
+  timeToExpiry: 300000
