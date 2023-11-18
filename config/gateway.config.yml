@@ -48,6 +48,36 @@ apiEndpoints:
     host: localhost
     paths: '/commend-user-create'
 
+  commendsUserProperty:
+    host: localhost
+    paths: '/users-properties/:id'
+
+  postTransaction:
+    host: localhost
+    paths: '/transaction'
+  postMethodPayment:
+    host: localhost
+    paths: '/method-payment'
+  getAllTransactions:
+    host: localhost
+    paths: '/transactions'
+  getAllMethodsPayments:
+    host: localhost
+    paths: '/methods-payments'
+
+  postTypeProperty:
+    host: localhost
+    paths: '/type-property'
+  postProperty:
+    host: localhost
+    paths: '/property'
+  postCheckin:
+    host: localhost
+    paths: '/checkin'
+  getProperties:
+    host: localhost
+    paths: '/properties'
+
 
 serviceEndpoints:
   httpbin:
@@ -74,6 +104,15 @@ policies:
   - post-user
   - post-commend-property
   - post-commend-user
+  - commeds-user
+  - create-transaction
+  - create-method-payment
+  - get-transactions
+  - get-methods-payments
+  - create-type-property
+  - create-property
+  - create-checkin
+  - get-properties
 customPolicies:
   - myCustomPolicy: './create-person-policy.js'
 pipelines:
@@ -204,6 +243,100 @@ pipelines:
           - action:
               changeOrigin: true
               baseUrl: ['http://localhost:8083/commend-person/create']
-        
+
+  getCommendsUserPropertiesPipeline:
+    apiEndpoints:
+      - commendsUserProperty
+    policies:
+      - commeds-user:
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/commends', 'http://localhost:8083/commends-person']
+
+  postTransactionPipeline:
+    apiEndpoints:
+      - postTransaction
+    policies:
+      - body-parser:
+          - action:
+              json:
+                strict: false
+      - create-transaction:
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8084/transacction/create']
+  postMethodPaymentPipeline:
+    apiEndpoints:
+      - postMethodPayment
+    policies:
+      - body-parser:
+          - action:
+              json:
+                strict: false
+      - create-transaction:
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8084/metodopago/create']  
+  transactionsPipeline:
+    apiEndpoints:
+      - getAllTransactions
+    policies:
+      - get-transactions: 
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8084/transacction-list'] 
+  methodsPaymentsPipeline:
+    apiEndpoints:
+      - getAllMethodsPayments
+    policies:
+      - get-methods-payments: 
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8084/metodopago-list']  
+
+  postTypePropertyPipeline:
+    apiEndpoints:
+      - postTypeProperty
+    policies:
+      - body-parser:
+          - action:
+              json:
+                strict: false
+      - create-type-property:
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8082/create']  
+  postPropertyPipeline:
+    apiEndpoints:
+      - postProperty
+    policies:
+      - body-parser:
+          - action:
+              json:
+                strict: false
+      - create-property:
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8082/create-propiedad']
+  postCheckinPipeline:
+    apiEndpoints:
+      - postCheckin
+    policies:
+      - body-parser:
+          - action:
+              json:
+                strict: false
+      - create-checkin:
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8082/create-checkin']   
+  propertiesPipeline:
+    apiEndpoints:
+      - getProperties
+    policies:
+      - get-properties: 
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8082/propiedades']     
 
     

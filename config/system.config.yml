@@ -30,7 +30,25 @@ plugins:
      package: './plugins/manifest-create-commend-property.js'
    myCustomPolicy13:
      package: './plugins/manifest-create-commend-user.js'
+   myCustomPolicy14:
+     package: './aggregators/plugins/commend-aggregate.js'
+   myCustomPolicy15:
+     package: './method-payment/plugins/create-transaction.js'
+   myCustomPolicy16:
+     package: './method-payment/plugins/method-payment.js'
+   myCustomPolicy17:
+     package: './method-payment/plugins/get-transactions.js'
+   myCustomPolicy18:
+     package: './method-payment/plugins/get-methods-payments.js'
 
+   myCustomPolicy19:
+     package: './properties/plugins/create-type-property.js'
+   myCustomPolicy20:
+     package: './properties/plugins/create-property.js'
+   myCustomPolicy21:
+     package: './properties/plugins/create-checkin.js'
+   myCustomPolicy22:
+     package: './properties/plugins/get-properties.js'
 crypto:
   cipherKey: sensitiveKey
   algorithm: aes256
