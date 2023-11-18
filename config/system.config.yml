@@ -5,6 +5,7 @@ db:
     namespace: EG
 
 plugins:
+   express-gateway-plugin-body-parser: {}
    myCustomPolicy:
      package: './plugins/manifest.js'
    myCustomPolicy2:
@@ -21,6 +22,14 @@ plugins:
      package: './plugins/manifest-commend-property.js'
    myCustomPolicy9:
      package: './plugins/manifest-commend-user.js'
+   myCustomPolicy10:
+     package: './plugins/manifest-create-person.js'
+   myCustomPolicy11:
+     package: './plugins/manifest-create-user.js'
+   myCustomPolicy12:
+     package: './plugins/manifest-create-commend-property.js'
+   myCustomPolicy13:
+     package: './plugins/manifest-create-commend-user.js'
 
 crypto:
   cipherKey: sensitiveKey

@@ -7,12 +7,16 @@ apiEndpoints:
   api:
     host: localhost
     paths: '/ip'
+
   persons:
     host: localhost
     paths: '/persons'
   getPerson:
     host: localhost
     paths: '/person/:id'
+  postPerson:
+    host: localhost
+    paths: '/person'
 
   users:
     host: localhost
@@ -20,6 +24,9 @@ apiEndpoints:
   user:
     host: localhost
     paths: '/user/:id'
+  postUser:
+    host: localhost
+    paths: '/user'
 
   commends-property:
     host: localhost
@@ -27,6 +34,9 @@ apiEndpoints:
   commend-property:
     host: localhost
     paths: '/commend-property/:id'
+  post-commend-property:
+    host: localhost
+    paths: '/commend-property'
 
   commends-user:
     host: localhost
@@ -34,6 +44,9 @@ apiEndpoints:
   commend-user:
     host: localhost
     paths: '/commend-user/:id'
+  postCommendUser:
+    host: localhost
+    paths: '/commend-user-create'
 
 
 serviceEndpoints:
@@ -48,6 +61,7 @@ policies:
   - oauth2
   - proxy
   - rate-limit
+  - body-parser
   - create-person
   - get-person
   - get-users
@@ -56,6 +70,10 @@ policies:
   - get-commends-user
   - get-commend-property
   - get-commend-user
+  - post-person
+  - post-user
+  - post-commend-property
+  - post-commend-user
 customPolicies:
   - myCustomPolicy: './create-person-policy.js'
 pipelines:
@@ -85,7 +103,19 @@ pipelines:
       - get-person:
           - action:
               changeOrigin: true
-              baseUrl: ['http://localhost:8083/person']  
+              baseUrl: ['http://localhost:8083/person']
+  postPersonPipeline:
+    apiEndpoints:
+      - postPerson
+    policies:
+      - body-parser:
+          - action:
+              json:
+                strict: false
+      - post-person:
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/person/create']
 
   usersPipeline:
     apiEndpoints:
@@ -103,6 +133,19 @@ pipelines:
           - action:
               changeOrigin: true
               baseUrl: ['http://localhost:8083/get-user']
+  postUserPipeline:
+    apiEndpoints:
+      - postUser
+    policies:
+      - body-parser:
+          - action:
+              json:
+                strict: false
+      - post-user:
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/create']
+
 
   commendsPropertyPipeline:
     apiEndpoints:
@@ -120,6 +163,18 @@ pipelines:
           - action:
               changeOrigin: true
               baseUrl: ['http://localhost:8083/commend']
+  postCommendPropertyPipeline:
+    apiEndpoints:
+      - post-commend-property
+    policies:
+      - body-parser:
+          - action:
+              json:
+                strict: false
+      - post-commend-property:
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/commend/create']
 
   commendsUserPipeline:
     apiEndpoints:
@@ -137,6 +192,18 @@ pipelines:
           - action:
               changeOrigin: true
               baseUrl: ['http://localhost:8083/commend-person']
+  postCommendUserPipeline:
+    apiEndpoints:
+      - postCommendUser
+    policies:
+      - body-parser:
+          - action:
+              json:
+                strict: false
+      - post-commend-user:
+          - action:
+              changeOrigin: true
+              baseUrl: ['http://localhost:8083/commend-person/create']
         
 
     
